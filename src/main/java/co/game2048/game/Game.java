@@ -20,11 +20,13 @@ public class Game {
 			}
 		}
 		int rand1 = random.nextInt(vaccentCells.size());
-		board[rand1/4][rand1%4] = 2 * (random.nextInt(2)+1);
-		vaccentCells.remove(rand1);		
+		int cell = vaccentCells.get(rand1);
+		board[cell/4][cell%4] = 2 * (random.nextInt(2)+1);
+		vaccentCells.remove(Integer.valueOf(cell));		
 		int rand2 = random.nextInt(vaccentCells.size());
-		board[rand2/4][rand2%4] = 2 * (random.nextInt(2)+1);
-		vaccentCells.remove(rand2);
+		cell = vaccentCells.get(rand2);
+		board[cell/4][cell%4] = 2 * (random.nextInt(2)+1);
+		vaccentCells.remove(Integer.valueOf(cell));
 	}
 	public int[][] getBoard() {
 		return board;
@@ -63,5 +65,34 @@ public class Game {
 	}
 	public boolean loss() {
 		return this.loss;
+	}
+	public void populateNewRandomCell() {
+		if(vaccentCells.size() == 0) {
+			this.loss = true;
+			return;
+		}
+		int rand = random.nextInt(vaccentCells.size());
+		int cell = vaccentCells.get(rand);
+		board[cell/4][cell%4] = 2 * (random.nextInt(2)+1);
+		vaccentCells.remove(Integer.valueOf(cell));
+	}
+	public void updateVaccentCells() {
+		vaccentCells.clear();
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<4;j++) {
+				if(board[i][j] == 0)
+					vaccentCells.add(i*4+j);
+			}
+		}
+		
+	}
+	public void checkWin() {
+		for(int i=0;i<4;i++) {
+			for(int j=0;j<4;j++) {
+				if(board[i][j] == 32)
+					this.win = true;
+			}
+		}
+		
 	}
 }

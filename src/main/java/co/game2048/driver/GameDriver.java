@@ -21,10 +21,13 @@ public class GameDriver {
 	}
 	
 	public void start(){
-		while(!loss() || !win()) {
+		while(play()) {
 			printBoard();
 			MoveStrategy move = getNextMove();
 			move.execute(game);
+			game.checkWin();
+			game.updateVaccentCells();
+			game.populateNewRandomCell();
 		}
 		if(win()) {
 			System.out.println("Congratulations!!!");
@@ -33,6 +36,13 @@ public class GameDriver {
 		}
 	}
 	
+	private boolean play() {
+		if(win() || loss()) {
+			return false;
+		}
+		return true;
+	}
+
 	private MoveStrategy getNextMove() {
 		System.out.println("Enter Move:");
 		int move = scanner.nextInt();
